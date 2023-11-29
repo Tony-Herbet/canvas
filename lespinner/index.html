@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rat Racing Game</title>
+    <style>
+        /* Add your CSS styles for canvas and rectangles here */
+    </style>
+</head>
+<body>
+    <textarea id="playerNames" placeholder="Enter names separated by lines"></textarea>
+    <button id="startButton">Start Race</button>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <div id="winners"></div>
+    <button id="resetButton">Reset Game</button>
+    <button id="restartButton">Restart Game</button>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let playerNames;
+        let raceStarted = false;
+        let winners = [];
+
+        const winnersDiv = document.getElementById("winners");
+
+        document.getElementById("startButton").addEventListener("click", () => {
+            if (!raceStarted) {
+                playerNames = document.getElementById("playerNames").value.split("\n"); // Split by line breaks
+                startGame();
+                raceStarted = true;
+            }
+        });
+
+        document.getElementById("resetButton").addEventListener("click", () => {
+            playerNames = [];
+            winners = [];
+            raceStarted = false;
+            winnersDiv.textContent = "";
+            clearCanvas();
+        });
+
+        document.getElementById("restartButton").addEventListener("click", () => {
+            if (!raceStarted) {
+                startGame();
+                raceStarted = true;
+            }
+        });
+
+        function startGame() {
+            // Initialize the game
+
+            // Create an array to store the players' positions
+            const playerPositions = [];
+            for (let i = 0; i < playerNames.length; i++) {
+                const playerName = playerNames[i].trim(); // Remove leading/trailing spaces
+                if (playerName !== "") { // Ignore empty lines
+                    playerPositions.push({ name: playerName, x: 10, y: 50 + i * 40 });
+                }
+            }
+
+            // Define a function to update the game state and draw on the canvas
+            function updateGameArea() {
+                // Clear the canvas
+                clearCanvas();
+
+                // Draw the starting line
+                ctx.fillStyle = "black";
+                ctx.fillRect(5, 0, 10, canvas.height);
+
+                // Draw the ending line
+                ctx.fillStyle = "red";
+                ctx.fillRect(canvas.width - 15, 0, 10, canvas.height);
+
+                // Update and draw the player rectangles and names
+                for (let i = 0; i < playerPositions.length; i++) {
+                    const player = playerPositions[i];
+                    ctx.fillStyle = "blue";
+                    ctx.fillRect(player.x, player.y, 20, 20);
+
+                    // Display player name above the rectangle
+                    ctx.fillStyle = "black";
+                    ctx.font = "14px Arial";
+                    ctx.fillText(player.name, player.x, player.y - 5);
+
+                    // Move the players (you can implement a random movement or user-controlled movement)
+                    player.x += Math.random() * 5;
+
+                    // Check if a player has crossed the finish line
+                    if (player.x >= canvas.width - 15) {
+                        winners.push(player.name);
+                        displayWinners();
+                        clearInterval(raceInterval);
+                    }
+                }
+            }
+
+            // Set up a game loop to continuously update the game
+            const raceInterval = setInterval(updateGameArea, 20); // Adjust the timing as needed
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function displayWinners() {
+            winnersDiv.textContent = `Winners: ${winners.join(", ")}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game</title>
+</head>
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background-color: black;
+  }
+  .score {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+  }
+  .menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .bg {
+    width: 300px;
+    padding: 10px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .menu-score {
+    font-weight: bold;
+    font-size:larger;
+  }
+  button {
+    background-color: blue;
+    color: white;
+    border-radius: 50px;
+    border: none;
+    width: 300px;
+    padding: 10px;
+  }
+  button:focus {
+    outline: 0;
+  }
+</style>
+
+<body>
+  <div class="score">
+    <span>Score:</span>
+    <span id="scoreEl">0</span>
+  </div>
+  <div class="menu">
+    <div class="bg">
+      <p class="menu-score">0</p>
+      <p>Points</p>
+      <div><button id="startGameBtn">Start Game</button></div>
+    </div>
+  </div>
+  <canvas></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js" integrity="sha512-cdV6j5t5o24hkSciVrb8Ki6FveC2SgwGfLE31+ZQRHAeSRxYhAQskLkq3dLm8ZcWe1N3vBOEYmmbhzf7NTtFFQ==" crossorigin="anonymous"></script>
+  <script src="./index.js"></script>
+</body>
+
+</html>
